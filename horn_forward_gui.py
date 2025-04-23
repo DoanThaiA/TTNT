@@ -57,7 +57,7 @@ def detect_redundant_rules(rules, facts):
     return redundant
 
 # ================================
-# 🚀 Nhập dữ liệu từ người dùng
+#  Nhập dữ liệu từ người dùng
 # ================================
 
 print("Nhập các mệnh đề logic (ví dụ: ¬A ∨ ¬B ∨ C hoặc A ^ B => C). Nhập 'done' để kết thúc:")
@@ -70,16 +70,16 @@ while True:
         rule = parse_rule_mixed(line)
         user_rules.append(rule)
     except Exception as e:
-        print(f"❌ Lỗi: {e}")
+        print(f" Lỗi: {e}")
 
 initial_facts = input("Nhập các sự thật ban đầu (vd: A,B): ")
 facts = set(x.strip() for x in initial_facts.split(','))
 
 # ================================
-# ✅ Hiển thị các luật Horn
+#  Hiển thị các luật Horn
 # ================================
 
-print("\n📘 Các luật Horn đã chuyển:")
+print("\n Các luật Horn đã chuyển:")
 for premises, conclusion in user_rules:
     if premises:
         print(f"{' ^ '.join(sorted(premises))} => {conclusion}")
@@ -93,17 +93,17 @@ for premises, conclusion in user_rules:
 inferred_facts, trace = forward_chaining_with_trace(user_rules, facts)
 redundant = detect_redundant_rules(user_rules, facts)
 
-print("\n✅ Suy diễn được các sự thật:")
+print("\n Suy diễn được các sự thật:")
 print(", ".join(sorted(inferred_facts)))
 
-print("\n🧠 Chi tiết suy diễn:")
+print("\n Chi tiết suy diễn:")
 for conclusion, (premises, _) in trace.items():
     if premises:
         print(f"{' ^ '.join(sorted(premises))} => {conclusion}")
     else:
         print(f"{conclusion} là sự thật ban đầu")
 
-print("\n🗑️ Các luật dư thừa là:")
+print("\n Các luật dư thừa là:")
 for premises, conclusion in redundant:
     if premises:
         print(f"{' ^ '.join(sorted(premises))} => {conclusion}")
