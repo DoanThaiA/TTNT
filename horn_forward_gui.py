@@ -2,9 +2,9 @@ import re
 
 def parse_rule_mixed(expr):
     """
-    Phân tích cả 2 dạng:
-    - Dạng logic: ¬A ∨ ¬B ∨ C
-    - Dạng luật:  A ^ B => C
+    Phân tích 2 dạng nhập từ bàn phím:
+    - Logic: ~A | ~B | C  (thay cho ¬A ∨ ¬B ∨ C)
+    - Luật:  A ^ B => C
     """
     expr = expr.strip()
     if '=>' in expr:
@@ -12,12 +12,12 @@ def parse_rule_mixed(expr):
         premises = set(p.strip() for p in parts[0].split('^'))
         conclusion = parts[1].strip()
         return (premises, conclusion)
-    elif '∨' in expr:
-        literals = [x.strip() for x in expr.split('∨')]
+    elif '|' in expr:
+        literals = [x.strip() for x in expr.split('|')]
         negative = set()
         positive = None
         for lit in literals:
-            if lit.startswith('¬'):
+            if lit.startswith('~'):
                 negative.add(lit[1:].strip())
             else:
                 if positive is not None:
@@ -57,10 +57,10 @@ def detect_redundant_rules(rules, facts):
     return redundant
 
 # ================================
-#  Nhập dữ liệu từ người dùng
+# Nhập dữ liệu từ người dùng
 # ================================
 
-print("Nhập các mệnh đề logic (ví dụ: ¬A ∨ ¬B ∨ C hoặc A ^ B => C). Nhập 'done' để kết thúc:")
+print("Nhập các mệnh đề logic (ví dụ: ~A | ~B | C hoặc A ^ B => C). Nhập 'done' để kết thúc:")
 user_rules = []
 while True:
     line = input("Mệnh đề: ")
@@ -76,7 +76,7 @@ initial_facts = input("Nhập các sự thật ban đầu (vd: A,B): ")
 facts = set(x.strip() for x in initial_facts.split(','))
 
 # ================================
-#  Hiển thị các luật Horn
+# Hiển thị các luật Horn
 # ================================
 
 print("\n Các luật Horn đã chuyển:")
